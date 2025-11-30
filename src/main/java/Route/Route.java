@@ -1,17 +1,22 @@
 package Route;
 
 import Airport.Airport;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.ws.rs.Path;
 
 import java.util.Random;
 
-
-
-public class Route {
+@Entity
+public class Route extends PanacheEntity {
     int id;
+    @Enumerated
     Airport source;
+    @Enumerated
     Airport destination;
     public int estimatedTime;
 
@@ -24,6 +29,9 @@ public class Route {
         this.destination = destination;
         this.estimatedTime = estimatedTime;
     }
+
+    public Route() {}
+
 
     @Override
     public String toString(){

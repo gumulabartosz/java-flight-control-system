@@ -3,26 +3,34 @@ package Flight;
 import Airplane.Airplane;
 import Airport.Airport;
 import Route.Route;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.ws.rs.Path;
 
 import java.time.LocalDateTime;
 import java.util.Random;
 
-
-public class Flight {
-    int id;
+@Entity
+public class Flight extends PanacheEntity {
+    @ManyToOne
     Route route;
     LocalDateTime departure;
     LocalDateTime arrival;
+    @ManyToOne
     Airplane airplane;
 
+    public Route getRoute() { return route; }
+    public LocalDateTime getDeparture() { return departure; }
+    public LocalDateTime getArrival() { return arrival; }
+    public Airplane getAirplane() { return airplane; }
+
+
+    public Flight(){};
 
     public Flight(Route route, LocalDateTime departure, Airplane airplane){
-        Random rand = new Random();
-        // 100000–999999
-        this.id = 100000 + rand.nextInt(900000);
         this.route = route;
         this.departure = departure;
         this.arrival = this.departure.plusMinutes(route.estimatedTime);
@@ -30,16 +38,16 @@ public class Flight {
     }
 
 
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Flight information:\n");
-        sb.append(this.route);
-        sb.append("\nDeparture: ").append(this.departure);
-        sb.append("\nArrival: ").append(this.arrival);
-        sb.append("\nAirplane: ").append(this.airplane);
-
-        return sb.toString();
-    }
+//    @Override
+//    public String toString(){
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("Flight information:\n");
+//        sb.append(this.route);
+//        sb.append("\nDeparture: ").append(this.departure);
+//        sb.append("\nArrival: ").append(this.arrival);
+//        sb.append("\nAirplane: ").append(this.airplane);
+//
+//        return sb.toString();
+//    }
 }
 
