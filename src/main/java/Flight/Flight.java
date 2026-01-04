@@ -6,6 +6,7 @@ import Route.Route;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.ws.rs.Path;
@@ -19,7 +20,7 @@ public class Flight extends PanacheEntity {
     Route route;
     LocalDateTime departure;
     LocalDateTime arrival;
-    @ManyToOne
+    @ManyToOne(optional = false)
     Airplane airplane;
 
     public Route getRoute() { return route; }
@@ -34,6 +35,7 @@ public class Flight extends PanacheEntity {
         this.route = route;
         this.departure = departure;
         this.arrival = this.departure.plusMinutes(route.estimatedTime);
+        this.arrival = this.departure.plusMinutes(40);
         this.airplane = airplane;
     }
 

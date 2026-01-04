@@ -7,33 +7,30 @@ import jakarta.inject.Inject;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToOne;
 import jakarta.ws.rs.Path;
 
 import java.util.Random;
 
 @Entity
 public class Route extends PanacheEntity {
-    int id;
-    @Enumerated
+    @ManyToOne(optional = false)
     Airport source;
-    @Enumerated
+    @ManyToOne(optional = false)
     Airport destination;
     public int estimatedTime;
 
+    public Route() {}
 
     public Route(Airport source, Airport destination, int estimatedTime){
-        Random rand = new Random();
-        // 100000–999999
-        this.id = 100000 + rand.nextInt(900000);
         this.source = source;
         this.destination = destination;
         this.estimatedTime = estimatedTime;
     }
 
-    public Route() {}
 
 
-    @Override
+   /* @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("---ROUTE---\n")
@@ -41,5 +38,5 @@ public class Route extends PanacheEntity {
                 .append("Destination: "+destination).append("\n");
 
         return sb.toString();
-    }
+    }*/
 }

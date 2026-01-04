@@ -1,50 +1,55 @@
 package Flight;
 
-import Airplane.Airplane;
-import Airport.Airport;
-import Route.Route;
+import Flight.DTO.CreateFlightRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-@Path("/flight")
+@Path("/flights")
 
 public class FlightREST {
-
-    List<Flight> flights = new ArrayList<Flight>();
-
 
     @Inject
     FlightService flightService;
 
-    @GET
-    @Path("/generate")
-    public Flight generate() {
-
-        Route route1 = new Route(Airport.POZ, Airport.GDN, 45);
-        Airplane a1 = new Airplane("Airbus", "A320", 200, 5);
-        flights.add(new Flight(route1, LocalDateTime.now(), a1));
-
-        Flight f1 = flightService.createFlight(route1, LocalDateTime.now(), a1);
-        f1.persist();
-
-        return flights.getLast();
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Flight createFlight(CreateFlightRequest req){
+        return flightService.createFlight(req);
     }
-
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all")
-    public List<Flight> getAll(){
+    public Response getAll(
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("size") @DefaultValue("50") int size){
 
-        return flights;
+        size = Math.min(size, 100);
+
+        List<Flight> flights = flightService.findAllPaged(page, size);
+        long total = flightService.count();
+        return Response.ok(flights).header("X-Total-Count", total).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getById(@PathParam("id") Long id) {
+
+        Flight flight = flightService.findById(id);
+
+        if (flight == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Flight with id " + id + " not found")
+                    .build();
+        }
+        return Response.ok(flight).build();
     }
 }

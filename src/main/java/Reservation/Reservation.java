@@ -36,24 +36,6 @@ public class Reservation extends PanacheEntity {
     }
 
 
-//    @Override
-//    public String toString(){
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("Stan rezerwacji:\n")
-//        .append("ID: "+ String.valueOf(this.id)).append("\n")
-//        .append(String.valueOf(this.passenger)).append("\n")
-//        .append(String.valueOf(this.flight)).append("\n");
-//
-//        return sb.toString();
-//    }
-
-    /*public void ShowReservation(){
-        IO.println("Stan rezerwacji:");
-        IO.println("ID: "+ String.valueOf(this.id));
-        IO.println(String.valueOf(this.passenger));
-        IO.println(String.valueOf(this.flight));
-        //IO.println(String.valueOf(this.id));
-    }*/
 }
 
 

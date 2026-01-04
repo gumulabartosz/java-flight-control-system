@@ -29,16 +29,14 @@ public class Passenger extends PanacheEntity {
 
     public Passenger() {}
 
-    public Passenger (String firstName, String lastName, int age, Sex sex){
+    public Passenger (String firstName, String lastName, int age, Sex sex, boolean isDisabled){
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.sex = sex;
+        this.isDisabled = isDisabled;
     }
 
-    public void setDisabled(boolean disabled) {
-        isDisabled = disabled;
-    }
 
 //    @Override
 //    public String toString(){
@@ -52,8 +50,6 @@ public class Passenger extends PanacheEntity {
 //
 //        return sb.toString();
 //    }
-
-
 
 }
 
