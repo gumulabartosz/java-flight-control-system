@@ -13,6 +13,6 @@ public class CreateReservationRequest {
     @NotNull
     public Long passengerId;
     @NotNull
-    Status status;
+    public Status status;
 
 }

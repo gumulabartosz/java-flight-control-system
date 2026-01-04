@@ -5,6 +5,7 @@ import Flight.DTO.CreateFlightRequest;
 import Route.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,17 @@ public class FlightService {
     public Flight createFlight(CreateFlightRequest req) {
 
         Route r = routeService.findById((long)req.routeId);
+        if (r == null) {
+            throw new EntityNotFoundException(
+                    "Flight with ID: " + req.routeId + " not found."
+            );
+        }
         Airplane a = airplaneService.findById((long)req.airplaneId);
+        if (a == null) {
+            throw new EntityNotFoundException(
+                    "Flight with ID: " + req.airplaneId + " not found."
+            );
+        }
 
         Flight f = new Flight(r, req.departure, a);
         f.persist();

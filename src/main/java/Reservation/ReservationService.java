@@ -6,7 +6,10 @@ import Passenger.*;
 import Reservation.DTO.CreateReservationRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 @ApplicationScoped
@@ -21,9 +24,20 @@ public class ReservationService {
     public Reservation createReservation(CreateReservationRequest req) {
 
         Flight flight = flightService.findById(req.flightId);
-        Passenger passenger = passengerService.findById(req.passengerId);
+        if (flight == null) {
+            throw new EntityNotFoundException(
+                    "Flight with ID: " + req.flightId + " not found."
+            );
+        }
 
-        Reservation r = new Reservation(flight, passenger);
+        Passenger passenger = passengerService.findById(req.passengerId);
+        if (passenger == null) {
+            throw new EntityNotFoundException(
+                    "Passenger with ID: " + req.passengerId + " not found."
+            );
+        }
+
+        Reservation r = new Reservation(flight, passenger, req.status);
         r.persist();
         return r;
     }

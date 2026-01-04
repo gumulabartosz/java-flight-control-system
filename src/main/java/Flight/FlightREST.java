@@ -47,7 +47,7 @@ public class FlightREST {
 
         if (flight == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Flight with id " + id + " not found")
+                    .entity("Flight with id " + id + " not found.")
                     .build();
         }
         return Response.ok(flight).build();

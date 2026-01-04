@@ -40,16 +40,5 @@ public class Flight extends PanacheEntity {
     }
 
 
-//    @Override
-//    public String toString(){
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("Flight information:\n");
-//        sb.append(this.route);
-//        sb.append("\nDeparture: ").append(this.departure);
-//        sb.append("\nArrival: ").append(this.arrival);
-//        sb.append("\nAirplane: ").append(this.airplane);
-//
-//        return sb.toString();
-//    }
 }
 

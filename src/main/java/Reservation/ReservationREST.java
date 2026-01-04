@@ -37,8 +37,7 @@ public class ReservationREST {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Reservation create(CreateReservationRequest req){
-        return reservationService.createReservation(req);
-
+        return  reservationService.createReservation(req);
     }
 
 }

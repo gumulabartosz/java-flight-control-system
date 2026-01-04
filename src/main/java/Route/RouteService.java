@@ -1,16 +1,14 @@
 package Route;
 
 
-import Airplane.Airplane;
 import Airport.*;
-import Flight.Flight;
 import Route.DTO.CreateRouteRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.WebApplicationException;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @ApplicationScoped
 public class RouteService {
@@ -21,12 +19,18 @@ public class RouteService {
     @Transactional
     public Route createRoute(CreateRouteRequest req) {
 
-        if (req.sourceId == null || req.destinationId== null) {
-            throw new WebApplicationException("Airport not found", 404);
-        }
-
         Airport source = airportService.findById((long)req.sourceId);
+        if (source == null) {
+            throw new EntityNotFoundException(
+                    "Flight with ID: " + req.sourceId + " not found."
+            );
+        }
         Airport destination = airportService.findById((long)req.destinationId);
+        if (destination == null) {
+            throw new EntityNotFoundException(
+                    "Flight with ID: " + req.destinationId + " not found."
+            );
+        }
 
         Route r = new Route(source, destination, req.estimatedTime);
         r.persist();
@@ -35,6 +39,17 @@ public class RouteService {
 
     public Route findById(Long id) {
         return Route.findById(id);
+    }
+
+    public List<Route> findAllPaged(int page, int size) {
+
+        return Route.findAll()
+                .page(page, size)
+                .list();
+    }
+
+    public long count() {
+        return Route.count();
     }
 
 }

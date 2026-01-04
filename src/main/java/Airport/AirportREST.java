@@ -23,7 +23,6 @@ public class AirportREST {
 
     @POST
     public Airport createAirport(CreateAirportRequest request){
-
         return airportService.createAirport(request);
     }
 

@@ -9,12 +9,14 @@ import jakarta.inject.Inject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Path;
 
 import java.util.Random;
 
 @Entity
 public class Reservation extends PanacheEntity {
+
     @ManyToOne
     Flight flight;
     @ManyToOne
@@ -29,8 +31,8 @@ public class Reservation extends PanacheEntity {
 
     public Reservation(){}
 
-    public Reservation(Flight flight, Passenger passenger){
-        this.status = Status.INACTIVE;
+    public Reservation(Flight flight, Passenger passenger, Status status){
+        this.status = status;
         this.flight = flight;
         this.passenger = passenger;
     }

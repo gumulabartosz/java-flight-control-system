@@ -27,16 +27,4 @@ public class Route extends PanacheEntity {
         this.destination = destination;
         this.estimatedTime = estimatedTime;
     }
-
-
-
-   /* @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("---ROUTE---\n")
-                .append("Source: "+source).append("\n")
-                .append("Destination: "+destination).append("\n");
-
-        return sb.toString();
-    }*/
 }
