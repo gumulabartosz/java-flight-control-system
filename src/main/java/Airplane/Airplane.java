@@ -15,7 +15,6 @@ import java.util.Random;
 @Entity
 public class Airplane extends PanacheEntity {
 
-
     String manufacturer;
     String model;
     int passengerCapacity;

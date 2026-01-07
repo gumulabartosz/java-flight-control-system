@@ -26,13 +26,13 @@ public class FlightService {
         Route r = routeService.findById((long)req.routeId);
         if (r == null) {
             throw new EntityNotFoundException(
-                    "Flight with ID: " + req.routeId + " not found."
+                    "Route with ID: " + req.routeId + " not found."
             );
         }
         Airplane a = airplaneService.findById((long)req.airplaneId);
         if (a == null) {
             throw new EntityNotFoundException(
-                    "Flight with ID: " + req.airplaneId + " not found."
+                    "Airplane with ID: " + req.airplaneId + " not found."
             );
         }
 

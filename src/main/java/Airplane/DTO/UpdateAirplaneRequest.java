@@ -2,13 +2,9 @@ package Airplane.DTO;
 
 import jakarta.validation.constraints.NotNull;
 
-public class CreateAirplaneRequest {
-    @NotNull
+public class UpdateAirplaneRequest {
     public String manufacturer;
-    @NotNull
     public String model;
-    @NotNull
     public Integer passengerCapacity;
-    @NotNull
     public Integer crewCapacity;
 }
