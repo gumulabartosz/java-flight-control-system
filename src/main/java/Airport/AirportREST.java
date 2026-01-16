@@ -56,4 +56,12 @@ public class AirportREST {
         return Response.ok(airport).build();
     }
 
+
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Long id) {
+        airportService.delete(id);
+        return Response.noContent().build();
+    }
+
 }

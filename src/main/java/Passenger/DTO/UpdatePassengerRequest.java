@@ -3,15 +3,10 @@ package Passenger.DTO;
 import Passenger.Sex;
 import jakarta.validation.constraints.NotNull;
 
-public class CreatePassengerRequest {
-    @NotNull
+public class UpdatePassengerRequest {
     public String firstName;
-    @NotNull
     public String lastName;
-    @NotNull
     public Integer age;
-    @NotNull
     public Sex sex;
-    @NotNull
-    public boolean isDisabled = false;
+    public Boolean isDisabled;
 }

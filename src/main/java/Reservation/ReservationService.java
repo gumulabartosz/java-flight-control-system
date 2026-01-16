@@ -1,5 +1,6 @@
 package Reservation;
 
+import Airport.Airport;
 import Flight.*;
 import Passenger.DTO.CreatePassengerRequest;
 import Passenger.*;
@@ -55,5 +56,19 @@ public class ReservationService {
 
     public long count() {
         return Reservation.count();
+    }
+
+
+    @Transactional
+    public void delete(Long id) {
+
+        Reservation reservation = Reservation.findById(id);
+
+        if (reservation == null) {
+            throw new EntityNotFoundException(
+                    "Reservation with id " + id + " not found."
+            );
+        }
+        reservation.delete();
     }
 }

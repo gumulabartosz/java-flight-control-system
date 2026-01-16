@@ -1,8 +1,11 @@
 package Flight;
 
 import Flight.DTO.CreateFlightRequest;
+import Flight.DTO.UpdateFlightRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -52,4 +55,22 @@ public class FlightREST {
         }
         return Response.ok(flight).build();
     }
+
+    @PUT
+    @Path("/{id}")
+    public Response update(
+            @PathParam("id") Long id,
+            @NotNull @Valid UpdateFlightRequest req
+    ) {
+        Flight tmp = flightService.update(id, req);
+        return Response.ok(tmp).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Long id) {
+        flightService.delete(id);
+        return Response.noContent().build();
+    }
+
 }
