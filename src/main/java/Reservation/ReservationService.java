@@ -5,6 +5,7 @@ import Flight.*;
 import Passenger.DTO.CreatePassengerRequest;
 import Passenger.*;
 import Reservation.DTO.CreateReservationRequest;
+import Reservation.DTO.UpdateReservationRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
@@ -70,5 +71,41 @@ public class ReservationService {
             );
         }
         reservation.delete();
+    }
+
+    @Transactional
+    public Reservation update(Long id, UpdateReservationRequest req){
+
+        Reservation reservation = Reservation.findById(id);
+        if(reservation == null){
+            throw new EntityNotFoundException(
+                    "Reservation with id " + id + " not found."
+            );
+        }
+        if(req.flightId != null){
+            Flight flight = Flight.findById(req.flightId);
+            if(flight == null){
+                throw new EntityNotFoundException(
+                        "Flight with id " + id + " not found."
+                );
+            }
+            reservation.flight = flight;
+        }
+
+        if(req.passengerId != null){
+            Passenger passenger = Passenger.findById(req.passengerId);
+            if(passenger == null){
+                throw new EntityNotFoundException(
+                        "Passenger with id " + id + " not found."
+                );
+            }
+            reservation.passenger = passenger;
+        }
+
+
+        if(req.status != null) reservation.status = req.status;
+
+        return reservation;
+
     }
 }

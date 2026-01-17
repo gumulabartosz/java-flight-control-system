@@ -1,8 +1,12 @@
 package Airport;
 
 import Airport.DTO.CreateAirportRequest;
+import Airport.DTO.UpdateAirportRequest;
 import Flight.Flight;
 import jakarta.inject.Inject;
+import jakarta.persistence.PostPersist;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -22,8 +26,8 @@ public class AirportREST {
 
 
     @POST
-    public Airport createAirport(CreateAirportRequest request){
-        return airportService.createAirport(request);
+    public Response createAirport(CreateAirportRequest request){
+        return Response.ok(airportService.createAirport(request)).build();
     }
 
     @GET
@@ -50,7 +54,7 @@ public class AirportREST {
 
         if (airport == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Flight with id " + id + " not found")
+                    .entity("Airport with id " + id + " not found")
                     .build();
         }
         return Response.ok(airport).build();
@@ -62,6 +66,16 @@ public class AirportREST {
     public Response delete(@PathParam("id") Long id) {
         airportService.delete(id);
         return Response.noContent().build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response update(
+            @PathParam("id") Long id,
+            @NotNull @Valid UpdateAirportRequest req){
+        Airport airport = airportService.update(id, req);
+
+        return Response.ok(airport).build();
     }
 
 }

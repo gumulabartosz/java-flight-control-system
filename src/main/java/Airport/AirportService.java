@@ -3,6 +3,7 @@ package Airport;
 import Airplane.Airplane;
 import Airport.DTO.CreateAirportRequest;
 
+import Airport.DTO.UpdateAirportRequest;
 import Utils.AlreadyExistsException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityNotFoundException;
@@ -48,6 +49,21 @@ public class AirportService {
             );
         }
         airport.delete();
+    }
+
+    @Transactional
+    public Airport update(Long id, UpdateAirportRequest req){
+        Airport airport = Airport.findById(id);
+
+        if (airport == null) {
+            throw new EntityNotFoundException(
+                    "Airport with id " + id + " not found."
+            );
+        }
+
+        if(req.code != null) airport.code = req.code ;
+        return airport;
+
     }
 
 }
