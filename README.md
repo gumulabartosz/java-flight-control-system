@@ -35,7 +35,7 @@ mvn --version
 ```
 lub
 ```shell script
-    quarkus dev
+quarkus dev
 ```
 
 ## Uruchom testy
