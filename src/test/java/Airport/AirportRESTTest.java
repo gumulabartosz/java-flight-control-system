@@ -2,6 +2,7 @@ package Airport;
 
 import Airport.*;
 import Airport.DTO.CreateAirportRequest;
+import Airport.DTO.UpdateAirportRequest;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
@@ -83,6 +84,62 @@ public class AirportRESTTest {
                 .delete("/airports/"+airportId)
                 .then()
                 .statusCode(is(204));
+    }
+
+    @Test
+    @TestTransaction
+    public void testDeleteAirportNotExist() {
+
+
+        RestAssured.given()
+                .contentType("application/json")
+                .when()
+                .delete("/airports/"+1)
+                .then()
+                .statusCode(is(404));
+    }
+
+    @Test
+    @TestTransaction
+    public void testUpdateAirportNotExist() {
+
+        UpdateAirportRequest uar = new UpdateAirportRequest();
+        uar.code = "XYZ";
+
+        RestAssured.given()
+                .contentType("application/json")
+                .when()
+                .body(uar)
+                .put("/airports/1")
+                .then()
+                .statusCode(is(404));
+    }
+
+    @Test
+    @TestTransaction
+    public void testUpdateAirport() {
+
+        Airport airport = new Airport("POZ");
+
+        Airport a2 = RestAssured.given()
+                .contentType("application/json")
+                .body(airport)
+                .when()
+                .post("/airports")
+                .then()
+                .statusCode(is(200))
+                .extract().as(Airport.class);
+
+        UpdateAirportRequest uar = new UpdateAirportRequest();
+        uar.code = "KTW";
+
+        RestAssured.given()
+                .contentType("application/json")
+                .when()
+                .body(uar)
+                .put("/airports/"+a2.id)
+                .then()
+                .statusCode(is(200));
     }
 
 }
