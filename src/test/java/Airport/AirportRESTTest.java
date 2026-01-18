@@ -70,14 +70,7 @@ public class AirportRESTTest {
     @TestTransaction
     public void testDeleteAirport() {
 
-        String airportId = RestAssured.given()
-                .contentType("application/json")
-                .body(new Airport("POZ"))
-                .when()
-                .post("/airports")
-                .then()
-                .statusCode(200)
-                .extract().path("id").toString();
+        Long airportId = CreateAirport("KRK").id;
 
         RestAssured.given()
                 .contentType("application/json")
@@ -91,11 +84,10 @@ public class AirportRESTTest {
     @TestTransaction
     public void testDeleteAirportNotExist() {
 
-
         RestAssured.given()
                 .contentType("application/json")
                 .when()
-                .delete("/airports/"+1)
+                .delete("/airports/"+10)
                 .then()
                 .statusCode(is(404));
     }
@@ -120,16 +112,7 @@ public class AirportRESTTest {
     @TestTransaction
     public void testUpdateAirport() {
 
-        Airport airport = new Airport("POZ");
-
-        Airport a2 = RestAssured.given()
-                .contentType("application/json")
-                .body(airport)
-                .when()
-                .post("/airports")
-                .then()
-                .statusCode(is(200))
-                .extract().as(Airport.class);
+        Airport a2 = CreateAirport("POZ");
 
         UpdateAirportRequest uar = new UpdateAirportRequest();
         uar.code = "KTW";
