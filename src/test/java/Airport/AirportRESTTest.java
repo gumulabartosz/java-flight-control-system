@@ -27,13 +27,11 @@ public class AirportRESTTest {
     }
 
 
-    @Test
-    @TestTransaction
-    public void testCreateAirport() {
+    private Airport CreateAirport(String code) {
 
-        Airport airport = new Airport("POZ");
+        Airport airport = new Airport(code);
 
-        Airport a2 = RestAssured.given()
+        return RestAssured.given()
                 .contentType("application/json")
                 .body(airport)
                 .when()
@@ -41,20 +39,23 @@ public class AirportRESTTest {
                 .then()
                 .statusCode(is(200))
                 .extract().as(Airport.class);
+    }
+
+
+    @Test
+    @TestTransaction
+    public void testCreateAirport() {
+
+        Airport airport = CreateAirport("POZ");
 
     }
+
     @Test
     @TestTransaction
     public void testCreateAirportAlreadyExists() {
 
 
-        RestAssured.given()
-                .contentType("application/json")
-                .body(new Airport("POZ"))
-                .when()
-                .post("/airports")
-                .then()
-                .statusCode(is(200));
+        CreateAirport("POZ");
 
         RestAssured.given()
                 .contentType("application/json")
@@ -141,5 +142,7 @@ public class AirportRESTTest {
                 .then()
                 .statusCode(is(200));
     }
+
+
 
 }
